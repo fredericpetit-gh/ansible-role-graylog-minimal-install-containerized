@@ -39,7 +39,7 @@ Ce rôle nécessite :
 
 Puis faire :
 
-`ansible-galaxy role install -r requirements.yaml`
+`ansible-galaxy role install -r requirements.yaml --force`
 
 ## Utilisation
 

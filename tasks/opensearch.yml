@@ -1,6 +1,6 @@
 - name: Lancer OpenSearch container
   docker_container:
-    name: "{{ opensearch_container_name }}""
+    name: "{{ opensearch_container_name }}"
     image: "{{ opensearch_image }}"
     ulimits:
       - name: nofile

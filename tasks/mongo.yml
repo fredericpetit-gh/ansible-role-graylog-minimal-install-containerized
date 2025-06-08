@@ -1,6 +1,6 @@
 - name: Lancer MongoDB container
   docker_container:
-    name: "{{ mongo_container_name }}""
+    name: "{{ mongo_container_name }}"
     image: "{{ mongo_image }}"
     state: started
     restart_policy: unless-stopped
