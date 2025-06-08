@@ -45,8 +45,11 @@ Puis faire :
 Ajouter le rôle dans un playbook :
 
 ```yaml
-- hosts: serveur
+---
+- name: Déployer Graylog avec MongoDB et OpenSearch (conteneurs)
+  hosts: docker
   become: yes
+  gather_facts: true
   roles:
     - graylog-commpleted
 ```
