@@ -1,4 +1,4 @@
-# Rôle Ansible "graylog-commpleted"
+# Rôle Ansible "graylog-completed"
 
 Rôle Ansible pour déployer Graylog avec MongoDB et OpenSearch en conteneurs.
 
@@ -24,6 +24,7 @@ Ce rôle lance trois conteneurs :
 
 Ce rôle nécessite :
 - Docker ou Podman installé sur l'hôte cible.
+- GIT installé sur l'hôte cible.
 - La collection Ansible `community.docker` installée localement (`ansible-galaxy collection install community.docker`).
 
 ## Installation
@@ -51,5 +52,17 @@ Ajouter le rôle dans un playbook :
   become: yes
   gather_facts: true
   roles:
-    - graylog-commpleted
+    - graylog-completed
 ```
+
+puis lancer avec (par exemple) `ansible-playbook -i inventory playbooks/graylog/install.yaml`
+
+## Notes
+
+### Limites système (ulimits) pour OpenSearch
+
+OpenSearch nécessite une limite élevée du nombre de fichiers ouverts (`nofile = 65536`) pour fonctionner correctement. Si cette limite n’est pas respectée, le conteneur échouera avec une erreur liée à `RLIMIT_NOFILE`.
+
+Ce rôle configure automatiquement cette limite via le paramètre `ulimits` dans la tâche de lancement du conteneur Docker. Aucune configuration manuelle supplémentaire n’est nécessaire si vous utilisez ce rôle tel quel.
+
+Si vous exécutez les conteneurs manuellement ou que votre hôte impose des restrictions, vous pouvez augmenter les limites système dans la configuration de votre utilisateur (`limits.conf`) ou dans la configuration du démon Docker (`daemon.json`) et redémarrer Docker.

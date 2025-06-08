@@ -1,13 +1,13 @@
 - name: Lancer Graylog container
   docker_container:
-    name: graylog
+    name: "{{ graylog_container_name }}"
     image: "{{ graylog_image }}"
     env:
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_admin_password | password_hash('sha256') }}"
       GRAYLOG_HTTP_EXTERNAL_URI: "{{ graylog_http_external_uri }}"
-      GRAYLOG_MONGODB_URI: "mongodb://mongo:27017/graylog"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
+      GRAYLOG_MONGODB_URI: "mongodb://{{ mongo_container_name }}:27017/graylog"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://{{ opensearch_container_name }}:9200"
     ports:
       - "9009:9000"
       - "12201:12201/udp"
