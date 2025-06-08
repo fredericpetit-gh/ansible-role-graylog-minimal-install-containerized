@@ -4,7 +4,7 @@ graylog_container_name: "log-graylog"
 
 mongo_image: "mongo:6-jammy"
 opensearch_image: "opensearchproject/opensearch:1"
-graylog_image: "graylog/graylog:6"
+graylog_image: "graylog/graylog:6.2"
 
 graylog_admin_password: "root"
 graylog_password_secret: "root"
