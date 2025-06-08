@@ -13,3 +13,5 @@
       - "12201:12201/udp"
     state: started
     restart_policy: unless-stopped
+    networks:
+      - name: net-log

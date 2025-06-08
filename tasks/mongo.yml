@@ -4,3 +4,5 @@
     image: "{{ mongo_image }}"
     state: started
     restart_policy: unless-stopped
+    networks:
+      - name: net-log

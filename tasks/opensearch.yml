@@ -7,3 +7,5 @@
       plugins.security.disabled: "true"
     state: started
     restart_policy: unless-stopped
+    networks:
+      - name: net-log

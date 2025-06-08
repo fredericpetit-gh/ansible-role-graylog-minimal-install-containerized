@@ -1,3 +1,12 @@
+- name: Créer le réseau net-log avec subnet fixe
+  docker_network:
+    name: net-log
+    driver: bridge
+    state: present
+    ipam_config:
+      - subnet: "10.0.0.0/29"
+        gateway: "10.0.0.1"
+
 - name: Démarrer MongoDB
   include_tasks: mongo.yml
 
