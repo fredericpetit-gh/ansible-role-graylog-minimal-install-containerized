@@ -1,0 +1,6 @@
+mongo_image: "mongo:6-jammy"
+opensearch_image: "opensearchproject/opensearch:1"
+graylog_image: "graylog/graylog:6"
+graylog_admin_password: "root"
+graylog_password_secret: "root"
+graylog_http_external_uri: "http://localhost:9009/"

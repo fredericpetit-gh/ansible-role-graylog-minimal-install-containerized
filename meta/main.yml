@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: "Frédéric Petit"
+  description: "Rôle Ansible pour déployer Graylog avec MongoDB et OpenSearch en conteneurs."
+  company: "fredericpetit"
+  license: "MIT"
+  min_ansible_version: 2.9
+  platforms:
+    - name: "Ubuntu"
+      versions:
+        - noble
+    - name: "Debian"
+      versions:
+        - bookworm
+    - name: "AlmaLinux"
+      versions:
+        - "8"
+        - "9"
+  galaxy_tags:
+    - logging
+    - graylog
+    - podman
+    - containers
+
+dependencies: []

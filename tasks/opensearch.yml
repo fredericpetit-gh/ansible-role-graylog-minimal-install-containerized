@@ -1,0 +1,11 @@
+- name: Lancer OpenSearch container
+  docker_container:
+    name: opensearch
+    image: "{{ opensearch_image }}"
+    env:
+      discovery.type: "single-node"
+      plugins.security.disabled: "true"
+    ulimits:
+      - nofile=65536:65536
+    state: started
+    restart_policy: unless-stopped

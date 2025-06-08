@@ -1,0 +1,8 @@
+- name: Démarrer MongoDB
+  include_tasks: mongo.yml
+
+- name: Démarrer OpenSearch
+  include_tasks: opensearch.yml
+
+- name: Démarrer Graylog
+  include_tasks: graylog.yml
