@@ -2,12 +2,10 @@
   docker_container:
     name: "{{ opensearch_container_name }}"
     image: "{{ opensearch_image }}"
-    ulimits:
-      - name: nofile
-        soft: 65536
-        hard: 65536
     env:
       discovery.type: "single-node"
       plugins.security.disabled: "true"
+    ulimits:
+      - nofile=65536:65536
     state: started
     restart_policy: unless-stopped
