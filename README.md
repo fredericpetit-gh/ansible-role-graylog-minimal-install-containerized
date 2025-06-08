@@ -51,8 +51,21 @@ Ajouter le rôle dans un playbook :
   hosts: docker
   become: yes
   gather_facts: true
+  vars:
+    remove_container: true
   roles:
     - graylog-completed
+
+  tasks:
+    - name: Supprimer les containers Graylog, MongoDB et OpenSearch
+      docker_container:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - "log-graylog"
+        - "log-mongo"
+        - "log-opensearch"
+      when: remove_container | bool
 ```
 
 puis lancer avec (par exemple) `ansible-playbook -i inventory playbooks/graylog/install.yaml`
