@@ -16,3 +16,7 @@
     restart_policy: unless-stopped
     networks:
       - name: net-log
+
+- name: Afficher le hash du mot de passe admin
+  debug:
+    msg: "SHA256(admin password) = {{ graylog_admin_password | password_hash('sha256') }}"
