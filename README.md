@@ -11,14 +11,14 @@ Ce rôle lance trois conteneurs :
 
 ## Variables par défaut
 
-| Variable                    | Description                         | Valeur par défaut                                 |
-|-----------------------------|-------------------------------------|---------------------------------------------------|
-| `mongo_image`               | Image Docker MongoDB                | `mongo:6-jammy`                                   |
-| `opensearch_image`          | Image Docker OpenSearch             | `opensearchproject/opensearch:1`                  |
-| `graylog_image`             | Image Docker Graylog                | `graylog/graylog:6`                               |
-| `graylog_admin_password`    | Mot de passe administrateur Graylog | `root`                                            |
-| `graylog_password_secret`   | Clé secrète pour Graylog            | `root`                                            |
-| `graylog_http_external_uri` | URL externe Graylog                 | `http://{{ ansible_default_ipv4.address }}:9009/` |
+| Variable                    | Description                         | Valeur par défaut                                |
+|-----------------------------|-------------------------------------|--------------------------------------------------|
+| `mongo_image`               | Image Docker MongoDB                | `mongo:6-jammy`                                  |
+| `opensearch_image`          | Image Docker OpenSearch             | `opensearchproject/opensearch:1`                 |
+| `graylog_image`             | Image Docker Graylog                | `graylog/graylog:6`                              |
+| `graylog_admin_password`    | Mot de passe administrateur Graylog | `root`                                           |
+| `graylog_password_secret`   | Clé secrète pour Graylog            | `root`                                           |
+| `graylog_http_external_uri` | URL externe Graylog                 | `http://{{ ansible_default_ipv4.address }}:9009` |
 
 ## Prérequis
 
