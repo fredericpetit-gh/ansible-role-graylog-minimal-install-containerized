@@ -11,14 +11,14 @@ Ce rôle lance trois conteneurs :
 
 ## Variables par défaut
 
-| Variable                    | Description                         | Valeur par défaut                                |
-|-----------------------------|-------------------------------------|--------------------------------------------------|
-| `mongo_image`               | Image Docker MongoDB                | `mongo:6-jammy`                                  |
-| `opensearch_image`          | Image Docker OpenSearch             | `opensearchproject/opensearch:1`                 |
-| `graylog_image`             | Image Docker Graylog                | `graylog/graylog:6`                              |
-| `graylog_admin_password`    | Mot de passe administrateur Graylog | `root`                                           |
-| `graylog_password_secret`   | Clé secrète pour Graylog            | `root`                                           |
-| `graylog_http_external_uri` | URL externe Graylog                 | `http://{{ ansible_default_ipv4.address }}:9009` |
+| Variable                    | Description                         | Valeur par défaut                                 |
+|-----------------------------|-------------------------------------|---------------------------------------------------|
+| `mongo_image`               | Image Docker MongoDB                | `mongo:6-jammy`                                   |
+| `opensearch_image`          | Image Docker OpenSearch             | `opensearchproject/opensearch:1`                  |
+| `graylog_image`             | Image Docker Graylog                | `graylog/graylog:6`                               |
+| `graylog_admin_password`    | Mot de passe administrateur Graylog | `root`                                            |
+| `graylog_password_secret`   | Clé secrète pour Graylog            | `root`                                            |
+| `graylog_http_external_uri` | URL externe Graylog                 | `http://{{ ansible_default_ipv4.address }}:9009/` |
 
 ## Prérequis
 
@@ -33,7 +33,7 @@ Ce rôle nécessite :
 
 ```yaml
 - src: git+https://gitlab.com/fredericpetit/ansible-role-graylog-minimal-install-containerized.git
-  name: graylog-minimal-install
+  name: graylog-minimal-install-containerized
   version: main
 ```
 
@@ -59,13 +59,13 @@ Ajouter le rôle dans un playbook :
         name: "{{ item }}"
         state: absent
       loop:
-        - "log-graylog"
-        - "log-mongo"
-        - "log-opensearch"
+        - "{{ graylog_container_name }}"
+        - "{{ mongo_container_name }}"
+        - "{{ opensearch_container_name }}"
       when: remove_container | bool
 
   roles:
-    - graylog-minimal-install
+    - graylog-minimal-install-containerized
 ```
 
 puis lancer avec (par exemple) `ansible-playbook -i inventory playbooks/graylog/install.yaml`

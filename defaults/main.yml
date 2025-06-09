@@ -8,4 +8,4 @@ graylog_image: "graylog/graylog:6.2"
 
 graylog_admin_password: "root"
 graylog_password_secret: "a3d2e1a7b6c5f4d3e7e44f8c9f9c8d2b"
-graylog_http_external_uri: "http://{{ ansible_default_ipv4.address }}:9009"
+graylog_http_external_uri: "http://{{ ansible_default_ipv4.address }}:9009/"
