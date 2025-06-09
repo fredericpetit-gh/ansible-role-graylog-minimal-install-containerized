@@ -4,7 +4,7 @@
     image: "{{ graylog_image }}"
     env:
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
-      GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_admin_password | password_hash('sha256') }}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_admin_password | hash('sha256') }}"
       GRAYLOG_HTTP_EXTERNAL_URI: "{{ graylog_http_external_uri }}"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_MONGODB_URI: "mongodb://{{ mongo_container_name }}:27017/graylog"
@@ -19,4 +19,4 @@
 
 - name: Afficher le hash du mot de passe admin
   debug:
-    msg: "SHA256(admin password) = {{ graylog_admin_password | password_hash('sha256') }}"
+    msg: "SHA256 (admin password) = {{ graylog_admin_password | hash('sha256') }}"
