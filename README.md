@@ -32,6 +32,13 @@ Ce rôle nécessite :
 À ajouter dans le fichier requirements.yaml :
 
 ```yaml
+- src: fredericpetit.
+  version: 1.0.0
+```
+
+OU
+
+```yaml
 - src: git+https://gitlab.com/fredericpetit/ansible-role-graylog-minimal-install-containerized.git
   name: graylog-minimal-install-containerized
   version: main
@@ -48,7 +55,7 @@ Ajouter le rôle dans un playbook :
 ```yaml
 - name: Déployer Graylog avec MongoDB et OpenSearch (conteneurs)
   hosts: docker
-  become: yes
+  become: true
   gather_facts: true
   vars:
     remove_container: true
