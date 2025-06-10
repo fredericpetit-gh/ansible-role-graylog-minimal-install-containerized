@@ -1,42 +1,41 @@
-# Rôle Ansible "graylog-minimal-install-containerized"
+# Ansible Role "fredericpetit-gh.graylog-minimal-install-containerized"
 
 [🇲🇫] Rôle Ansible pour déployer Graylog avec MongoDB et OpenSearch, en conteneurs avec installation minimale. - [🇬🇧] Ansible role for deploying Graylog with MongoDB and OpenSearch, containerized with minimal installation.
 
 ## Description
 
-Ce rôle lance trois conteneurs :
+This role starts three containers :
 - MongoDB 6-jammy
 - OpenSearch 1
-- Graylog 6 (exposé sur le port 9009)
+- Graylog 6 (exposed on port 9009)
 
-## Variables par défaut
+## Default Variables
 
-| Variable                    | Description                         | Valeur par défaut                                 |
-|-----------------------------|-------------------------------------|---------------------------------------------------|
-| `mongo_image`               | Image Docker MongoDB                | `mongo:6-jammy`                                   |
-| `opensearch_image`          | Image Docker OpenSearch             | `opensearchproject/opensearch:1`                  |
-| `graylog_image`             | Image Docker Graylog                | `graylog/graylog:6`                               |
-| `graylog_admin_password`    | Mot de passe administrateur Graylog | `root`                                            |
-| `graylog_password_secret`   | Clé secrète pour Graylog            | `root`                                            |
-| `graylog_http_external_uri` | URL externe Graylog                 | `http://{{ ansible_default_ipv4.address }}:9009/` |
+| Variable                    | Description             | Default Value                                     |
+|-----------------------------|-------------------------|---------------------------------------------------|
+| `mongo_image`               | Image Docker MongoDB    | `mongo:6-jammy`                                   |
+| `opensearch_image`          | Image Docker OpenSearch | `opensearchproject/opensearch:1`                  |
+| `graylog_image`             | Image Docker Graylog    | `graylog/graylog:6`                               |
+| `graylog_admin_password`    | Password Graylog        | `root`                                            |
+| `graylog_password_secret`   | Secret key Graylog      | `root`                                            |
+| `graylog_http_external_uri` | URL Graylog             | `http://{{ ansible_default_ipv4.address }}:9009/` |
 
-## Prérequis
-
-Ce rôle nécessite :
-- Docker ou Podman installé sur l'hôte cible.
-- GIT installé sur l'hôte cible.
-- La collection Ansible `community.docker` installée localement (`ansible-galaxy collection install community.docker`).
+Requirements
+This role requires :
+- Docker installed on the target host.
+- GIT installed on the target host.
+- The Ansible collection `community.docker` installed locally (`ansible-galaxy collection install community.docker`).
 
 ## Installation
 
-À ajouter dans le fichier requirements.yaml :
+To add in the requirements.yaml file :
 
 ```yaml
-- src: fredericpetit.
+- src: fredericpetit-gh.graylog-minimal-install-containerized
   version: 1.0.0
 ```
 
-OU
+OR
 
 ```yaml
 - src: git+https://gitlab.com/fredericpetit/ansible-role-graylog-minimal-install-containerized.git
@@ -44,16 +43,16 @@ OU
   version: main
 ```
 
-Puis faire :
+Then run :
 
 `ansible-galaxy role install -r requirements.yaml --force`
 
-## Utilisation
+## Usage
 
-Ajouter le rôle dans un playbook :
+Add the role in a playbook :
 
 ```yaml
-- name: Déployer Graylog avec MongoDB et OpenSearch (conteneurs)
+- name: Deploy Graylog with MongoDB and OpenSearch (containers)
   hosts: docker
   become: true
   gather_facts: true
@@ -61,7 +60,7 @@ Ajouter le rôle dans un playbook :
     remove_container: true
 
   pre_tasks:
-    - name: Supprimer Graylog, MongoDB et OpenSearch
+    - name: Remove Graylog, MongoDB and OpenSearch
       docker_container:
         name: "{{ item }}"
         state: absent
@@ -72,15 +71,21 @@ Ajouter le rôle dans un playbook :
       when: remove_container | bool
 
   roles:
-    - graylog-minimal-install-containerized
+    - fredericpetit-gh.graylog-minimal-install-containerized
 ```
 
-puis lancer avec (par exemple) `ansible-playbook -i inventory playbooks/graylog/install.yaml`
+Then run with (for example) : `ansible-playbook -i inventory playbooks/graylog/install.yaml`
 
 ## Notes
 
-### Limites système (ulimits) pour OpenSearch
+### [🇲🇫] Limites système (ulimits) pour OpenSearch
 
 OpenSearch nécessite une limite élevée du nombre de fichiers ouverts (`nofile = 65536`) pour fonctionner correctement. Si cette limite n’est pas respectée, le conteneur échouera avec une erreur liée à `RLIMIT_NOFILE`.
 
 Il est possible de configurer automatiquement cette limite via le paramètre `ulimits` dans la tâche de lancement du conteneur, ou augmenter les limites système dans la configuration de l'utilisateur (`limits.conf`) ou dans la configuration du démon (`daemon.json` pour Docker) et redémarrer.
+
+### [🇬🇧] System limits (ulimits) for OpenSearch
+
+OpenSearch requires a high open file limit (`nofile = 65536`) to function correctly. If this limit is not met, the container will fail with an `RLIMIT_NOFILE` error.
+
+You can automatically set this limit using the `ulimits` parameter when launching the container, or increase system limits in the user configuration (`limits.conf`) or in the daemon configuration (`daemon.json` for Docker), then restart.
