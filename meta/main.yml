@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: "Frédéric Petit"
-  description: "Rôle Ansible pour déployer Graylog avec MongoDB et OpenSearch, en conteneurs avec installation minimale."
+  description: "Ansible role for deploying Graylog with MongoDB and OpenSearch, containerized with minimal installation."
   company: "fredericpetit"
   license: "MIT"
   min_ansible_version: 2.9
