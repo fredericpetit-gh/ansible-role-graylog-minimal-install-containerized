@@ -32,7 +32,7 @@ To add in the requirements.yaml file :
 
 ```yaml
 - src: fredericpetit-gh.graylog-minimal-install-containerized
-  version: 1.0.0
+  version: 1.0.1
 ```
 
 OR
