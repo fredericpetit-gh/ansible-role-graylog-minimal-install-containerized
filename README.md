@@ -13,14 +13,17 @@ This role starts three containers :
 
 ## Default Variables
 
-| Variable                    | Description             | Default Value                                     |
-|-----------------------------|-------------------------|---------------------------------------------------|
-| `mongo_image`               | Image Docker MongoDB    | `mongo:6-jammy`                                   |
-| `opensearch_image`          | Image Docker OpenSearch | `opensearchproject/opensearch:1`                  |
-| `graylog_image`             | Image Docker Graylog    | `graylog/graylog:6`                               |
-| `graylog_admin_password`    | Password Graylog        | `root`                                            |
-| `graylog_password_secret`   | Secret key Graylog      | `root`                                            |
-| `graylog_http_external_uri` | URL Graylog             | `http://{{ ansible_default_ipv4.address }}:9000/` |
+| Variable                    | Description               | Default Value                                     |
+|-----------------------------|---------------------------|---------------------------------------------------|
+| `mongo_image`               | Image Docker MongoDB      | `mongo:6-jammy`                                   |
+| `opensearch_image`          | Image Docker OpenSearch   | `opensearchproject/opensearch:1`                  |
+| `graylog_image`             | Image Docker Graylog      | `graylog/graylog:6`                               |
+| `mongo_container_name`      | Container name MongoDB    | `ubuntu-mongo`                                    |
+| `opensearch_container_name` | Container name OpenSearch | `amazon-opensearch`                               |
+| `graylog_container_name`    | Container name Graylog    | `ubuntu-graylog`                                  |
+| `graylog_admin_password`    | Password Graylog          | `root`                                            |
+| `graylog_password_secret`   | Secret key Graylog        | `root`                                            |
+| `graylog_http_external_uri` | URL Graylog               | `http://{{ ansible_default_ipv4.address }}:9000/` |
 
 ## Requirements
 

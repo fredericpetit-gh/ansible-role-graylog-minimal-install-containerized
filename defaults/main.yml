@@ -1,10 +1,10 @@
-mongo_container_name: "ubuntu-mongo"
-opensearch_container_name: "amazon-opensearch"
-graylog_container_name: "ubuntu-graylog"
-
 mongo_image: "mongo:6-jammy"
 opensearch_image: "opensearchproject/opensearch:1"
 graylog_image: "graylog/graylog:6.2"
+
+mongo_container_name: "ubuntu-mongo"
+opensearch_container_name: "amazon-opensearch"
+graylog_container_name: "ubuntu-graylog"
 
 graylog_admin_password: "root"
 graylog_password_secret: "a3d2e1a7b6c5f4d3e7e44f8c9f9c8d2b"

@@ -16,11 +16,11 @@
     ipv4_gateway: "10.0.0.1"
   when: container_driver == "podman"
 
-- name: Démarrer MongoDB
+- name: Start MongoDB
   include_tasks: mongo.yml
 
-- name: Démarrer OpenSearch
+- name: Start OpenSearch
   include_tasks: opensearch.yml
 
-- name: Démarrer Graylog
+- name: Start Graylog
   include_tasks: graylog.yml
