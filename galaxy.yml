@@ -1,9 +1,9 @@
-namespace: fredericpetit
+namespace: fredericpetit-gh
 name: graylog-minimal-install-containerized
-version: 1.0.2
+version: 1.0.3
 readme: README.md
 authors:
-  - "Frédéric Petit @fredericpetit"
+  - "Frédéric Petit @fredericpetit-gh"
 description: "Ansible role for deploying Graylog with MongoDB and OpenSearch, containerized with minimal installation."
 license: MIT
 dependencies: {}
