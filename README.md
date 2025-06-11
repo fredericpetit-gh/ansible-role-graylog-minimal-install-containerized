@@ -2,12 +2,14 @@
 
 [🇲🇫] Rôle Ansible pour déployer Graylog avec MongoDB et OpenSearch, en conteneurs avec installation minimale. - [🇬🇧] Ansible role for deploying Graylog with MongoDB and OpenSearch, containerized with minimal installation.
 
+**WORKS WITH DOCKER & PODMAN !**
+
 ## Description
 
 This role starts three containers :
 - MongoDB 6-jammy
 - OpenSearch 1
-- Graylog 6 (exposed on port 9009)
+- Graylog 6 (exposed on port 9000)
 
 ## Default Variables
 
@@ -18,13 +20,13 @@ This role starts three containers :
 | `graylog_image`             | Image Docker Graylog    | `graylog/graylog:6`                               |
 | `graylog_admin_password`    | Password Graylog        | `root`                                            |
 | `graylog_password_secret`   | Secret key Graylog      | `root`                                            |
-| `graylog_http_external_uri` | URL Graylog             | `http://{{ ansible_default_ipv4.address }}:9009/` |
+| `graylog_http_external_uri` | URL Graylog             | `http://{{ ansible_default_ipv4.address }}:9000/` |
 
-Requirements
+## Requirements
+
 This role requires :
-- Docker installed on the target host.
-- GIT installed on the target host.
-- The Ansible collection `community.docker` installed locally (`ansible-galaxy collection install community.docker`).
+- Docker OR Podman installed on the target host.
+- The Ansible collection `community.docker` installed locally (`ansible-galaxy collection install community.docker`) for Docker OR `containers.podman`(`ansible-galaxy collection install containers.podman`) for Podman.
 
 ## Installation
 
@@ -32,7 +34,7 @@ To add in the requirements.yaml file :
 
 ```yaml
 - src: fredericpetit-gh.graylog-minimal-install-containerized
-  version: 1.0.1
+  version: 1.0.2
 ```
 
 OR
@@ -43,13 +45,11 @@ OR
   version: main
 ```
 
-Then run :
-
-`ansible-galaxy role install -r requirements.yaml --force`
+Then run : `ansible-galaxy role install -r requirements.yaml --force`
 
 ## Usage
 
-Add the role in a playbook :
+Add the role in a playbook, like this for example :
 
 ```yaml
 - name: Deploy Graylog with MongoDB and OpenSearch (containers)
@@ -58,9 +58,14 @@ Add the role in a playbook :
   gather_facts: true
   vars:
     remove_container: true
+    graylog_ports:
+      - "9009:9000"
+      - "12201:12201/udp"
+    container_driver: docker  # or 'podman', set externally or via group_vars
 
   pre_tasks:
-    - name: Remove Graylog, MongoDB and OpenSearch
+    # Remove containers with Docker
+    - name: Remove Graylog, MongoDB and OpenSearch (Docker)
       docker_container:
         name: "{{ item }}"
         state: absent
@@ -68,13 +73,28 @@ Add the role in a playbook :
         - "{{ graylog_container_name }}"
         - "{{ mongo_container_name }}"
         - "{{ opensearch_container_name }}"
-      when: remove_container | bool
+      when:
+        - remove_container | bool
+        - container_driver == "docker"
+
+    # Remove containers with Podman
+    - name: Remove Graylog, MongoDB and OpenSearch (Podman)
+      containers.podman.podman_container:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ graylog_container_name }}"
+        - "{{ mongo_container_name }}"
+        - "{{ opensearch_container_name }}"
+      when:
+        - remove_container | bool
+        - container_driver == "podman"
 
   roles:
     - fredericpetit-gh.graylog-minimal-install-containerized
 ```
 
-Then run with (for example) : `ansible-playbook -i inventory playbooks/graylog/install.yaml`
+Then run : `ansible-playbook -i inventory playbooks/graylog/install.yaml`
 
 ## Notes
 

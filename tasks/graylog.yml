@@ -1,4 +1,5 @@
-- name: Lancer Graylog container
+# Docker
+- name: Launch Graylog container (Docker)
   docker_container:
     name: "{{ graylog_container_name }}"
     image: "{{ graylog_image }}"
@@ -9,14 +10,32 @@
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_MONGODB_URI: "mongodb://{{ mongo_container_name }}:27017/graylog"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://{{ opensearch_container_name }}:9200"
-    ports:
-      - "9009:9000"
-      - "12201:12201/udp"
+    ports: "{{ graylog_ports | default(['9009:9000', '12201:12201/udp']) }}"
     state: started
     restart_policy: unless-stopped
     networks:
       - name: net-log
+  when: container_driver == "docker"
 
-- name: Afficher le hash du mot de passe admin
+# Podman
+- name: Launch Graylog container (Podman)
+  containers.podman.podman_container:
+    name: "{{ graylog_container_name }}"
+    image: "{{ graylog_image }}"
+    env:
+      GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_admin_password | hash('sha256') }}"
+      GRAYLOG_HTTP_EXTERNAL_URI: "{{ graylog_http_external_uri }}"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_MONGODB_URI: "mongodb://{{ mongo_container_name }}:27017/graylog"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://{{ opensearch_container_name }}:9200"
+    publish: "{{ graylog_ports | default(['9000:9000', '12201:12201/udp']) }}"
+    state: started
+    restart_policy: unless-stopped
+    network: net-log
+  when: container_driver == "podman"
+
+# admin password
+- name: Show admin password hash
   debug:
     msg: "SHA256 (admin password) = {{ graylog_admin_password | hash('sha256') }}"

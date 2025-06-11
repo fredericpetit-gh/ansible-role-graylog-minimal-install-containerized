@@ -1,4 +1,5 @@
-- name: Lancer OpenSearch container
+# Docker
+- name: Launch OpenSearch container (Docker)
   docker_container:
     name: "{{ opensearch_container_name }}"
     image: "{{ opensearch_image }}"
@@ -9,3 +10,17 @@
     restart_policy: unless-stopped
     networks:
       - name: net-log
+  when: container_driver == "docker"
+
+# Podman
+- name: Launch OpenSearch container (Podman)
+  containers.podman.podman_container:
+    name: "{{ opensearch_container_name }}"
+    image: "{{ opensearch_image }}"
+    env:
+      discovery.type: "single-node"
+      plugins.security.disabled: "true"
+    state: started
+    restart_policy: unless-stopped
+    network: net-log
+  when: container_driver == "podman"

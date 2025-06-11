@@ -1,4 +1,4 @@
-- name: Créer le réseau net-log avec subnet fixe
+- name: Create the net-log network with fixed subnet (Docker)
   docker_network:
     name: net-log
     driver: bridge
@@ -6,6 +6,15 @@
     ipam_config:
       - subnet: "10.0.0.0/29"
         gateway: "10.0.0.1"
+  when: container_driver == "docker"
+
+- name: Create the net-log network with fixed subnet (Podman)
+  containers.podman.podman_network:
+    name: net-log
+    state: present
+    ipv4_subnet: "10.0.0.0/29"
+    ipv4_gateway: "10.0.0.1"
+  when: container_driver == "podman"
 
 - name: Démarrer MongoDB
   include_tasks: mongo.yml

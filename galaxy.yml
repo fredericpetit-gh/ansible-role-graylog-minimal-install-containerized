@@ -1,6 +1,6 @@
 namespace: fredericpetit
 name: graylog-minimal-install-containerized
-version: 1.0.0
+version: 1.0.2
 readme: README.md
 authors:
   - "Frédéric Petit @fredericpetit"
